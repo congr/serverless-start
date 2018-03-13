@@ -1,0 +1,1 @@
+sls invoke local --function postSurvey --path template/survey-post.json

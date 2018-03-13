@@ -1,0 +1,56 @@
+service: serverless-service
+
+frameworkVersion: ">=1.1.0 <2.0.0"
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpackIncludeModules: true
+
+package:
+  exclude:
+    - tmp/**
+    - .git/**
+    - .gitignore
+    - .idea/**
+    - data/**
+    - script/**
+    - template/**
+    - package.json
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  region: ap-northeast-2 # us-west-2
+  stage: dev
+  profile: ${opt:stage, self:provider.stage}
+  timeout: 20
+  cfLogs: true
+  environment:
+    STAGE: ${opt:stage, self:provider.stage}
+    REGION: ${opt:region, self:provider.region}
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+        - cloudwatch:*
+        - events:*
+        - lambda:*
+        - iot:*
+        - logs:*
+        - sns:*
+        - cloudformation:*
+      Resource: "*"
+
+functions:
+  # Handler
+  postSurvey:
+    handler: handler-survey-post.postSurvey
+    description: POST /surveys
+    events:
+#      - schedule: rate(10 minutes) # triggered by CloudWatch metric
+      - http: # API Gateway
+          path: data/surveys
+          method: post
