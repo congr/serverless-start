@@ -37,17 +37,19 @@ functions:
 
 If you just deplay with the sample serverlesss.yml. The result would look like this.
 
-`API Gateway`
+```API Gateway```
 
 
 ![alt text](/apigateway.png "Description goes here")
 
 
 
-`Lambda`
+```Lambda```
 
 
 ![alt text](/lambda.png "Description goes here")
+
+
 
 
 For more information, visit https://github.com/serverless
